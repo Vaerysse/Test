@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class GestionScore : MonoBehaviour
 {
-    public List<string> bestScore;
+    public int bestScore;
     public int currentScore = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        bestScore = new List<string> { "Nothing", "0" };
+        bestScore = 0;
     }
 
     // Update is called once per frame
@@ -22,15 +22,13 @@ public class GestionScore : MonoBehaviour
     /*
      * Met à jour le meilleur score enregistré
      * 
-     * Entrée : String name : Le nom du meilleur score
-     *          int score : le meilleur score
+     * Entrée : int score : le meilleur score
      *          
      * Sortie : Null
      */
-    public void MAJBestScore(string name, int score)
+    public void MAJBestScore(int score)
     {
-        bestScore[0] = name;
-        bestScore[1] = "" + score;
+        bestScore = score;
     }
 
     /*
@@ -45,7 +43,7 @@ public class GestionScore : MonoBehaviour
     public bool TcheckIfBestNewBest()
     {
         bool newBestScore = false;
-        if(currentScore >= int.Parse(bestScore[1]))
+        if(currentScore >= bestScore)
         {
             newBestScore = true;
         }

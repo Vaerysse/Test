@@ -26,9 +26,9 @@ public class IOSystem : MonoBehaviour
      * Sortie : List<string> listScore : contient un nom et un score
      */
 
-    public List<string> LoadBestScore()
+    public int LoadBestScore()
     {
-        List<string> listScore = new List<string>();
+        int score = 0;
 
         // On essaye d'ouvrire le fichier de score.
         try
@@ -46,25 +46,18 @@ public class IOSystem : MonoBehaviour
                 }
                 else
                 {
-                    var dataline = data_string.Split(";");
-                    foreach (string data in dataline)
-                    {
-                        listScore.Add(data);
-                    }
+                    score = int.Parse(data_string);
                 }
             }
 
-            return listScore;
+            return score;
         }
         catch // Sinon on en crée un vierge et retourn le fichier créer
         {
-            listScore.Add("Unknow");
-            listScore.Add("0");
-
             try
             {
                 StreamWriter writer = new StreamWriter(Application.dataPath + "/data/score.csv");
-                writer.WriteLine("Unknow;0");
+                writer.WriteLine("0");
                 writer.Close();
             }
             catch
@@ -72,7 +65,7 @@ public class IOSystem : MonoBehaviour
                 Debug.Log("Probléme lors de la création du fichier score!");
             }
 
-            return listScore;
+            return score;
         }
 
     }
@@ -84,22 +77,13 @@ public class IOSystem : MonoBehaviour
      * 
      * Sortie : Null
      */
-    public void SaveBestScore(List<string> listScore)
+    public void SaveBestScore(int score)
     {
         // On sauvegarde le score dans un fichier.
         try
         {
             StreamWriter writer = new StreamWriter(Application.dataPath + "/data/score.csv");
-            string saveLine = "";
-            foreach (string data in listScore)
-            {
-                saveLine += data;
-                if(data != listScore[listScore.Count - 1])
-                {
-                    saveLine += ";";
-                }
-            }
-            writer.WriteLine(saveLine);
+            writer.WriteLine("" + score);
             writer.Close();
         }
         catch
