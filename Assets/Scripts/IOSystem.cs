@@ -5,12 +5,10 @@ using System.IO;
 
 public class IOSystem : MonoBehaviour
 {
-    public GameObject gameManager;
-
     // Start is called before the first frame update
     void Start()
     {
-        LoadBestScore();
+
     }
 
     // Update is called once per frame
@@ -25,10 +23,10 @@ public class IOSystem : MonoBehaviour
      * 
      * Entrée : Null
      * 
-     * Sortie : Null
+     * Sortie : List<string> listScore : contient un nom et un score
      */
 
-    public void LoadBestScore()
+    public List<string> LoadBestScore()
     {
         List<string> listScore = new List<string>();
 
@@ -56,11 +54,13 @@ public class IOSystem : MonoBehaviour
                 }
             }
 
-            //TODO : gestion de la récupération des donnée une fois la gestion du score en place
-
+            return listScore;
         }
-        catch // Sinon on en crée un vierge.
+        catch // Sinon on en crée un vierge et retourn le fichier créer
         {
+            listScore.Add("Unknow");
+            listScore.Add("0");
+
             try
             {
                 StreamWriter writer = new StreamWriter(Application.dataPath + "/data/score.csv");
@@ -71,6 +71,8 @@ public class IOSystem : MonoBehaviour
             {
                 Debug.Log("Probléme lors de la création du fichier score!");
             }
+
+            return listScore;
         }
 
     }
@@ -78,81 +80,33 @@ public class IOSystem : MonoBehaviour
     /*
      * Permet de sauvegarder le score dans un fichier.
      * 
-     * Entrée : Null
+     * Entrée : List<string> listScore : le nom et score à sauvegarder
      * 
      * Sortie : Null
      */
-    public void SaveBestScore()
+    public void SaveBestScore(List<string> listScore)
     {
         // On sauvegarde le score dans un fichier.
         try
         {
             StreamWriter writer = new StreamWriter(Application.dataPath + "/data/score.csv");
-            writer.WriteLine(" ");
-            //TODO : gestion de la save lorsque gestion de score mis en place ok
-            writer.Close();
-        }
-        catch
-        {
-            Debug.Log("Probléme lors de la création du fichier score!");
-        }
-
-    }
-
-    /*
-    // Met à jour la matrice utilisateur présent dans le système
-    public void saveData(List<GameObject> listFear)
-    {
-        string name = "";
-        string int1 = "";
-        string int2 = "";
-        string int3 = "";
-        string fail = "";
-        string win = "";
-        int cpt = 1;
-
-
-        foreach (GameObject go_f in listFear)
-        {
-            name = name + go_f.GetComponent<FearSystem>().getFearName();
-            int1 = int1 + go_f.GetComponent<FearSystem>().getIntensity()[0];
-            int2 = int2 + go_f.GetComponent<FearSystem>().getIntensity()[1];
-            int3 = int3 + go_f.GetComponent<FearSystem>().getIntensity()[2];
-            fail = fail + go_f.GetComponent<FearSystem>().getFail();
-            win = win + go_f.GetComponent<FearSystem>().getWin();
-
-            if (cpt != listFear.Count)
+            string saveLine = "";
+            foreach (string data in listScore)
             {
-                name = name + ";";
-                int1 = int1 + ";";
-                int2 = int2 + ";";
-                int3 = int3 + ";";
-                fail = fail + ";";
-                win = win + ";";
+                saveLine += data;
+                if(data != listScore[listScore.Count - 1])
+                {
+                    saveLine += ";";
+                }
             }
-            cpt++;
-
-        }
-
-        try
-        {
-            StreamWriter writer = new StreamWriter(Application.dataPath + "/User/LearnerModel" + nbModel + ".csv");
-            //StreamWriter writer = new StreamWriter("E:/Unity_project/evhi_modele/Assets/User/LearnerModel" + nbModel + ".csv");
-
-            writer.WriteLine(name);
-            writer.WriteLine(int1);
-            writer.WriteLine(int2);
-            writer.WriteLine(int3);
-            writer.WriteLine(fail);
-            writer.WriteLine(win);
-
+            writer.WriteLine(saveLine);
             writer.Close();
-
         }
         catch
         {
-            Debug.Log("Probléme lors de la sauvegarde du model!");
+            Debug.Log("Probléme lors de la sauvegarde du fichier score!");
         }
+
     }
-    */
+
 }
