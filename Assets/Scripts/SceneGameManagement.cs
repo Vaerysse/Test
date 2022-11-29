@@ -10,11 +10,25 @@ public class SceneGameManagement : MonoBehaviour
     public Text timer;
     public Text score;
     public GameObject gameManager;
+    public GameObject andGame;
+    public GameObject IOSGame;
 
     // Start is called before the first frame update
     void Start()
     {
         gameManager = GameObject.Find("GameManager");
+
+        //Si platform android
+        if (gameManager.GetComponent<GameManagement>().platformAND)
+        {
+            IOSGame.SetActive(false);
+            gameManager.GetComponent<GameManagement>().plateau = andGame;
+        }
+        else //Sinon IOS
+        {
+            andGame.SetActive(false);
+            gameManager.GetComponent<GameManagement>().plateau = IOSGame;
+        }
 
         // Initialisation de la scéne de jeu
         gameManager.GetComponent<GameManagement>().InitializeGameScene();

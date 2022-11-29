@@ -441,7 +441,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05ab5c6b88da188429afb5e393f5026d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tempMax: 10
+  tempMax: 180
+  platformAND: 1
 --- !u!114 &404174610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -454,7 +455,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c79b1df7150bcf49bad3bae41779f9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bestScore: []
+  bestScore: 0
   currentScore: 0
 --- !u!1 &553616263
 GameObject:

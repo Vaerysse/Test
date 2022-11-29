@@ -6,11 +6,15 @@ using System;
 
 public class GameManagement : MonoBehaviour
 {
-    public int tempMax = 180; // en seconde
+    public int tempMax; // en seconde
+    public bool platformAND;
+    public GameObject plateau;
 
     GameObject SceneController;
     float delta;
     bool runGame;
+    List<GameObject> pieces = new List<GameObject>();
+    int voidPieceIndex;
 
     // Start is called before the first frame update
     void Start()
@@ -63,6 +67,17 @@ public class GameManagement : MonoBehaviour
     {
         // On commence par recuperer le controller de l'affichage de la scene
         SceneController = GameObject.Find("SceneGameController");
+
+        foreach(Transform child in plateau.transform)
+        {
+            if(child.gameObject.name != "Background")
+            {
+                pieces.Add(child.gameObject);
+            }    
+        }
+        voidPieceIndex = 4;
+        Debug.Log(taquinOK());
+
         InitializeNewGame();
 
         Debug.Log("Test init scene");
@@ -211,9 +226,22 @@ public class GameManagement : MonoBehaviour
 
     }
 
+    /*
+     * Vérifie que toutes les pieces du taquin sont à la bonne place ou non
+     * 
+     * Entrée : Null
+     * 
+     * Sortie : bool rep : Valide ou non la bonne plce des pieces du taquin
+     */
     bool taquinOK()
     {
-        // TODO : faire fonction vérification qui renvoie une boolean
-        return false;
+        for(int i = 0; i < pieces.Count; i++)
+        {
+            if(pieces[i].name != "" + (i + 1))
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }
